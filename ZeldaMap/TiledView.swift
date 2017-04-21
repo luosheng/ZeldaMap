@@ -12,6 +12,14 @@ class TiledView: UIView {
 
     static let tileSize = CGSize(width: 750, height: 625)
 
+    var level: Int = 0 {
+        didSet {
+            count = Int(pow(2.0, Double(level)))
+        }
+    }
+
+    var count = 0
+
     override class var layerClass: AnyClass {
         return CATiledLayer.self
     }
@@ -22,10 +30,14 @@ class TiledView: UIView {
         if let layer = self.layer as? CATiledLayer {
             layer.tileSize = TiledView.tileSize
         }
+
+        defer {
+            level = 1
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func draw(_ rect: CGRect) {
@@ -36,6 +48,10 @@ class TiledView: UIView {
                 return
         }
         image.draw(at: rect.origin)
+    }
+
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: Int(TiledView.tileSize.width) * count, height: Int(TiledView.tileSize.height) * count)
     }
 
     private func findCoordinate(by rect: CGRect) -> (Int, Int) {
