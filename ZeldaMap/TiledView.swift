@@ -55,7 +55,8 @@ class TiledView: UIView {
     }
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: Int(TiledView.tileSize.width) * count, height: Int(TiledView.tileSize.height) * count)
+        let scale = UIScreen.main.scale
+        return CGSize(width: TiledView.tileSize.width * CGFloat(count) / scale, height: TiledView.tileSize.height * CGFloat(count) / scale)
     }
 
     private func findCoordinate(by rect: CGRect) -> (Int, Int) {
