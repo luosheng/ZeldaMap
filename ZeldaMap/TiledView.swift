@@ -10,6 +10,8 @@ import UIKit
 
 class TiledView: UIView {
 
+    static let tileSize = CGSize(width: 750, height: 625)
+
     override class var layerClass: AnyClass {
         return CATiledLayer.self
     }
@@ -18,7 +20,7 @@ class TiledView: UIView {
         super.init(frame: frame)
         srand48(Int(NSDate().timeIntervalSince1970))
         if let layer = self.layer as? CATiledLayer {
-            layer.tileSize = CGSize(width: 750, height: 625)
+            layer.tileSize = TiledView.tileSize
         }
     }
     
@@ -37,15 +39,11 @@ class TiledView: UIView {
     }
 
     private func findCoordinate(by rect: CGRect) -> (Int, Int) {
-        guard let layer = self.layer as? CATiledLayer else {
-            return (-1, -1)
-        }
-
         let scale = UIScreen.main.scale
         let originalX = Int(rect.origin.x * scale)
         let originalY = Int(rect.origin.y * scale)
-        let i = originalX / Int(layer.tileSize.width)
-        let j = originalY / Int(layer.tileSize.height)
+        let i = originalX / Int(TiledView.tileSize.width)
+        let j = originalY / Int(TiledView.tileSize.height)
         return (i, j)
     }
 }
