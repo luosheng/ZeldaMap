@@ -28,8 +28,8 @@ class TiledView: UIView {
         return CATiledLayer.self
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: CGRect.zero)
         srand48(Int(NSDate().timeIntervalSince1970))
         if let layer = self.layer as? CATiledLayer {
             layer.tileSize = TiledView.tileSize
@@ -46,7 +46,7 @@ class TiledView: UIView {
 
     override func draw(_ rect: CGRect) {
         let (i, j) = findCoordinate(by: rect)
-        guard let imageUrl = Bundle.main.url(forResource: "\(i)-\(j)", withExtension: "png", subdirectory: "Maps/1o"),
+        guard let imageUrl = Bundle.main.url(forResource: "\(i)-\(j)", withExtension: "png", subdirectory: "Maps/\(level)o"),
             let data = try? Data(contentsOf: imageUrl),
             let image = UIImage(data: data, scale: UIScreen.main.scale) else {
                 return

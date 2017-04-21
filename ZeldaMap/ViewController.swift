@@ -10,13 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var tiledView: TiledView!
+
     override func loadView() {
-        view = TiledView(frame: UIScreen.main.bounds)
+        view = UIScrollView(frame: UIScreen.main.bounds)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        tiledView = TiledView()
+        if let scrollView = view as? UIScrollView {
+            scrollView.addSubview(tiledView)
+            DispatchQueue.main.async {
+                scrollView.contentSize = self.tiledView.bounds.size
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
