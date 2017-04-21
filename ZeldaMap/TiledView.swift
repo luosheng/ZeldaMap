@@ -15,6 +15,10 @@ class TiledView: UIView {
     var level: Int = 0 {
         didSet {
             count = Int(pow(2.0, Double(level)))
+            DispatchQueue.main.async {
+                self.sizeToFit()
+                self.setNeedsDisplay()
+            }
         }
     }
 
