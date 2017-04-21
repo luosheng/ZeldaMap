@@ -18,27 +18,20 @@ class TiledView: UIView {
         super.init(frame: frame)
         srand48(Int(NSDate().timeIntervalSince1970))
         if let layer = self.layer as? CATiledLayer {
-            layer.tileSize = CGSize(width: 50, height: 50)
+            layer.tileSize = CGSize(width: 750, height: 625)
         }
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        srand48(Int(NSDate().timeIntervalSince1970))
-        if let layer = self.layer as? CATiledLayer {
-            layer.tileSize = CGSize(width: 50, height: 50)
-        }
     }
 
     override func draw(_ rect: CGRect) {
-        print(rect)
-        guard let context = UIGraphicsGetCurrentContext() else {
-            return
+        guard let imageUrl = Bundle.main.url(forResource: "0-0", withExtension: "png", subdirectory: "Maps/1o"),
+            let data = try? Data(contentsOf: imageUrl),
+            let image = UIImage(data: data, scale: UIScreen.main.scale) else {
+                return
         }
-        let red = CGFloat(drand48())
-        let green = CGFloat(drand48())
-        let blue = CGFloat(drand48())
-        context.setFillColor(red: red, green: green, blue: blue, alpha: 1.0)
-        context.fill(rect)
+        image.draw(at: rect.origin)
     }
 }

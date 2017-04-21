@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    override func loadView() {
+        view = TiledView(frame: UIScreen.main.bounds)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
