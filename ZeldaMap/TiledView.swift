@@ -27,11 +27,25 @@ class TiledView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        guard let imageUrl = Bundle.main.url(forResource: "0-0", withExtension: "png", subdirectory: "Maps/1o"),
+        let (i, j) = findCoordinate(by: rect)
+        guard let imageUrl = Bundle.main.url(forResource: "\(i)-\(j)", withExtension: "png", subdirectory: "Maps/1o"),
             let data = try? Data(contentsOf: imageUrl),
             let image = UIImage(data: data, scale: UIScreen.main.scale) else {
                 return
         }
         image.draw(at: rect.origin)
+    }
+
+    private func findCoordinate(by rect: CGRect) -> (Int, Int) {
+        guard let layer = self.layer as? CATiledLayer else {
+            return (-1, -1)
+        }
+
+        let scale = UIScreen.main.scale
+        let originalX = Int(rect.origin.x * scale)
+        let originalY = Int(rect.origin.y * scale)
+        let i = originalX / Int(layer.tileSize.width)
+        let j = originalY / Int(layer.tileSize.height)
+        return (i, j)
     }
 }
