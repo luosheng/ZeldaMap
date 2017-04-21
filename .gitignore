@@ -71,3 +71,5 @@ fastlane/screenshots
 fastlane/test_output
 
 # End of https://www.gitignore.io/api/Swift
+
+Maps/**/*.png
